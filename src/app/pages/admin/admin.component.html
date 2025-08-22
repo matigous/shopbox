@@ -1,0 +1,157 @@
+<div class="container my-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Administração de Produtos</h1>
+    <div class="d-flex gap-2">
+      <button class="btn btn-success" (click)="refreshProducts()">
+        🔄 Atualizar
+      </button>
+    </div>
+  </div>
+
+  <!-- Barra de Busca e Filtros -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <input type="text" class="form-control" placeholder="Buscar produtos..." [(ngModel)]="searchTerm"
+        (input)="onSearchChange()">
+    </div>
+    <div class="col-md-4">
+      <select class="form-select" [(ngModel)]="selectedCategory" (change)="onCategoryChange()">
+        <option value="">Todas as Categorias</option>
+        @for (category of categories(); track category) {
+        <option [value]="category">{{ category | titlecase }}</option>
+        }
+      </select>
+    </div>
+    <div class="col-md-2">
+      <div class="text-muted">
+        {{ filteredProducts().length }} produto(s)
+      </div>
+    </div>
+  </div>
+
+  <!-- Estados de Loading/Error -->
+  @if (loading()) {
+  <div class="d-flex justify-content-center my-5">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+  </div>
+  } @else if (error()) {
+  <div class="alert alert-danger d-flex justify-content-between align-items-center">
+    <span>{{ error() }}</span>
+    <button class="btn btn-sm btn-outline-danger" (click)="refreshProducts()">
+      Tentar Novamente
+    </button>
+  </div>
+  } @else {
+  <!-- Tabela de Produtos -->
+  @if (filteredProducts().length === 0) {
+  <div class="text-center my-5">
+    <h3>Nenhum produto encontrado</h3>
+    <p>Tente ajustar os filtros de busca.</p>
+  </div>
+  } @else {
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th width="80">ID</th>
+            <th width="100">Imagem</th>
+            <th>Título</th>
+            <th width="100">Preço</th>
+            <th width="150">Categoria</th>
+            <th width="80">Avaliação</th>
+            <th width="100">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (product of filteredProducts(); track product.id) {
+          <tr>
+            <td>
+              <span class="badge bg-secondary">#{{ product.id }}</span>
+            </td>
+            <td>
+              <img [src]="product.image" [alt]="product.title" class="img-thumbnail"
+                style="width: 60px; height: 60px; object-fit: contain;">
+            </td>
+            <td>
+              <div>
+                <strong>{{ product.title | slice:0:40 }}</strong>
+                @if (product.title.length > 40) {
+                <span>...</span>
+                }
+              </div>
+              <small class="text-muted">
+                {{ product.description | slice:0:60 }}...
+              </small>
+            </td>
+            <td>
+              <span class="fw-bold text-success">\${{ product.price }}</span>
+            </td>
+            <td>
+              <span class="badge bg-info text-dark">
+                {{ product.category | titlecase }}
+              </span>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <small>⭐ {{ product.rating.rate }}</small>
+                <br>
+                <small class="text-muted">({{ product.rating.count }})</small>
+              </div>
+            </td>
+            <td>
+              <div class="btn-group-vertical btn-group-sm">
+                <button class="btn btn-outline-primary btn-sm mb-1" (click)="viewProduct(product.id)"
+                  title="Ver Detalhes">
+                  👁️
+                </button>
+                <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.id)"
+                  [disabled]="deleting().has(product.id)" title="Deletar Produto">
+                  @if (deleting().has(product.id)) {
+                  <span class="spinner-border spinner-border-sm"></span>
+                  } @else {
+                  🗑️
+                  }
+                </button>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Estatísticas -->
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="card bg-light">
+        <div class="card-body">
+          <h6>Estatísticas Rápidas:</h6>
+          <div class="row text-center">
+            <div class="col">
+              <strong>{{ products().length }}</strong><br>
+              <small>Total Produtos</small>
+            </div>
+            <div class="col">
+              <strong>{{ categories().length }}</strong><br>
+              <small>Categorias</small>
+            </div>
+            <div class="col">
+              <strong>\${{ averagePrice().toFixed(2) }}</strong><br>
+              <small>Preço Médio</small>
+            </div>
+            <div class="col">
+              <strong>{{ averageRating().toFixed(1) }}⭐</strong><br>
+              <small>Avaliação Média</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+  }
+</div>

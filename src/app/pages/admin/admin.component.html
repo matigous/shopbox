@@ -8,7 +8,6 @@
     </div>
   </div>
 
-  <!-- Barra de Busca e Filtros -->
   <div class="row mb-4">
     <div class="col-md-6">
       <input type="text" class="form-control" placeholder="Buscar produtos..." [(ngModel)]="searchTerm"
@@ -29,7 +28,6 @@
     </div>
   </div>
 
-  <!-- Estados de Loading/Error -->
   @if (loading()) {
   <div class="d-flex justify-content-center my-5">
     <div class="spinner-border" role="status">
@@ -44,7 +42,6 @@
     </button>
   </div>
   } @else {
-  <!-- Tabela de Produtos -->
   @if (filteredProducts().length === 0) {
   <div class="text-center my-5">
     <h3>Nenhum produto encontrado</h3>
@@ -124,7 +121,6 @@
     </div>
   </div>
 
-  <!-- Estatísticas -->
   <div class="row mt-4">
     <div class="col-md-12">
       <div class="card bg-light">

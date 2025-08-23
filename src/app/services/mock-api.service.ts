@@ -24,6 +24,12 @@ export class MockApiService {
     return this.simulateLatency(item);
   }
 
+  auth<T = any>(resource: string, username: string): Promise<T | null> {
+    this.ensureResource(resource);
+    const item = this.store[resource].find(i => String(i.username) === String(username)) || null;
+    return this.simulateLatency(item);
+  }
+
   create<T = any>(resource: string, payload: Partial<T>): Promise<T> {
     this.ensureResource(resource);
     const id = this.idCounters[resource]++;

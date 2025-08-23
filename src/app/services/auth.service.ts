@@ -1,10 +1,10 @@
-// src/app/services/auth.service.ts
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, tap, from } from 'rxjs';
+import { Observable, tap, from } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { MockApiService } from './mocks/mock-api.service';
+import { MockApiService } from './mock-api.service';
+import authMockJson from '../../assets/mocks/auth.json';
 
 export interface LoginCredentials {
   username: string;
@@ -23,19 +23,12 @@ export class AuthService {
   private router = inject(Router);
   private apiUrl = environment.apiUrl;
   private mock = new MockApiService();
-
-
-  // Using signals for reactive state management
-  // Signals são como "sinais de rádio" que notificam mudanças automaticamente
   public isLoggedIn = signal<boolean>(this.hasToken());
   public currentUser = signal<string | null>(this.getStoredUsername());
 
   constructor() {
     if (!environment.apiUrl) {
-      this.mock.seed('auth/login', [
-        { username: 'user1', password: 'password1', token: 'token1' },
-        { username: 'user2', password: 'password2', token: 'token2' }
-      ]);
+      this.mock.seed('auth/login', authMockJson);
     }
 
     this.checkExistingAuth();
@@ -60,10 +53,18 @@ export class AuthService {
   }
 
   login(credentials: LoginCredentials): Observable<AuthResponse> {
-    const observable = !this.apiUrl ? from(this.mock.get('auth/login', credentials.username)) :
-      this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, credentials);
+    if (!this.apiUrl)
+      return from(this.mock.auth('auth/login', credentials.username))
+        .pipe(
+          tap(response => {
+            localStorage.setItem('auth_token', response.token);
+            localStorage.setItem('username', credentials.username);
+            this.isLoggedIn.set(true);
+            this.currentUser.set(credentials.username);
+          })
+        );
 
-    return observable
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, credentials)
       .pipe(
         tap(response => {
           localStorage.setItem('auth_token', response.token);

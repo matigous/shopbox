@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "title": "iPhone 15 Pro Max 256GB",
+    "price": 1199.99,
+    "description": "O mais avançado iPhone com chip A17 Pro, sistema de câmera Pro com zoom ótico de 5x e tela Super Retina XDR de 6,7 polegadas.",
+    "category": "eletrônicos",
+    "image": "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400&h=400&fit=crop",
+    "rating": {
+      "rate": 4.8,
+      "count": 2847
+    }
+  },
+  {
+    "id": 2,
+    "title": "Notebook Dell Inspiron 15 3000",
+    "price": 2499.90,
+    "description": "Notebook com processador Intel Core i5, 8GB RAM, SSD 256GB, tela 15.6\" Full HD e Windows 11 pré-instalado.",
+    "category": "eletrônicos",
+    "image": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=400&fit=crop",
+    "rating": {
+      "rate": 4.2,
+      "count": 1532
+    }
+  },
+  {
+    "id": 3,
+    "title": "Camiseta Básica 100% Algodão",
+    "price": 39.99,
+    "description": "Camiseta unissex de alta qualidade, confeccionada em 100% algodão. Disponível em várias cores e tamanhos.",
+    "category": "roupas",
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
+    "rating": {
+      "rate": 4.1,
+      "count": 892
+    }
+  },
+  {
+    "id": 4,
+    "title": "Smart TV Samsung 55\" 4K UHD",
+    "price": 1899.00,
+    "description": "Smart TV LED 55 polegadas com resolução 4K UHD, HDR10+, sistema Tizen e conectividade Wi-Fi integrada.",
+    "category": "eletrônicos",
+    "image": "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&h=400&fit=crop",
+    "rating": {
+      "rate": 4.6,
+      "count": 743
+    }
+  },
+  {
+    "id": 5,
+    "title": "Tênis Nike Air Max 270",
+    "price": 599.99,
+    "description": "Tênis esportivo com tecnologia Air Max, solado em borracha e cabedal respirável. Ideal para corrida e uso casual.",
+    "category": "calçados",
+    "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop",
+    "rating": {
+      "rate": 4.4,
+      "count": 1205
+    }
+  },
+  {
+    "id": 6,
+    "title": "Livro: O Alquimista - Paulo Coelho",
+    "price": 24.90,
+    "description": "Clássico da literatura brasileira que conta a história de Santiago, um jovem pastor em busca de seus sonhos.",
+    "category": "livros",
+    "image": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=400&fit=crop",
+    "rating": {
+      "rate": 4.7,
+      "count": 15847
+    }
+  },
+  {
+    "id": 7,
+    "title": "Cafeteira Elétrica Mondial Dolce Arome",
+    "price": 89.90,
+    "description": "Cafeteira elétrica com capacidade para 15 xícaras, filtro permanente e sistema corta-pingos.",
+    "category": "casa e cozinha",
+    "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=400&fit=crop",
+    "rating": {
+      "rate": 3.9,
+      "count": 456
+    }
+  },
+  {
+    "id": 8,
+    "title": "Headphone Bluetooth Sony WH-CH720N",
+    "price": 449.99,
+    "description": "Headphone sem fio com cancelamento de ruído, bateria de até 35 horas e conectividade Bluetooth 5.2.",
+    "category": "eletrônicos",
+    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
+    "rating": {
+      "rate": 4.5,
+      "count": 987
+    }
+  },
+  {
+    "id": 9,
+    "title": "Jaqueta Jeans Masculina",
+    "price": 149.90,
+    "description": "Jaqueta jeans clássica com lavagem escura, bolsos frontais e fechamento com botões. Corte regular.",
+    "category": "roupas",
+    "image": "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=400&fit=crop",
+    "rating": {
+      "rate": 4.0,
+      "count": 234
+    }
+  },
+  {
+    "id": 10,
+    "title": "Kit Panelas Antiaderente Tramontina",
+    "price": 299.99,
+    "description": "Conjunto com 5 panelas antiaderentes com revestimento Starflon, cabos e alças com toque suave.",
+    "category": "casa e cozinha",
+    "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop",
+    "rating": {
+      "rate": 4.3,
+      "count": 678
+    }
+  }
+]

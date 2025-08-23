@@ -2,7 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, from, of, tap, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { MockApiService } from './mocks/mock-api.service';
+import { MockApiService } from './mock-api.service';
+import ProductsMockJson from '../../assets/mocks/products.json';
 
 export interface Product {
   id: number;
@@ -27,10 +28,7 @@ export class ProductService {
 
   constructor() {
     if (!environment.apiUrl) {
-      this.mock.seed('products', [
-        { name: 'Produto A', price: 10 },
-        { name: 'Produto B', price: 20 }
-      ]);
+      this.mock.seed('products', ProductsMockJson);
     }
   }
 

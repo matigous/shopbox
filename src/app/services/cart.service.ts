@@ -12,6 +12,7 @@ export interface CartItem {
 export class CartService {
   private cartItems = signal<CartItem[]>([]);
   public items = this.cartItems.asReadonly();
+
   public totalItems = computed(() =>
     this.cartItems().reduce((total, item) => total + item.quantity, 0)
   );

@@ -1,0 +1,22 @@
+<nav class="navbar navbar-expand-lg">
+  <div class="app-container d-flex align-items-center justify-content-between">
+    <a class="navbar-brand" routerLink="/home">
+      🚀
+      ShopBox
+    </a>
+
+    <div class="nav-actions">
+      <a class="nav-link" routerLink="/home">🏠 Home</a>
+      @if (authService.isLoggedIn()) {
+      <a class="nav-link btn-outline-light" routerLink="/cart">🛒 Carrinho <span
+          class="badge bg-light text-dark ms-1">{{
+          cartService.totalItems() }}</span></a>
+      <a class="nav-link" routerLink="/admin">🛠️ Admin</a>
+      <span class="user-badge">👤 Olá, {{ authService.currentUser() }}!</span>
+      <button class="btn btn-outline-light btn-sm" (click)="logout()">🚪 Sair</button>
+      } @else {
+      <a class="nav-link" routerLink="/login">🔐 Login</a>
+      }
+    </div>
+  </div>
+</nav>

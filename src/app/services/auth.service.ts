@@ -60,8 +60,7 @@ export class AuthService {
           localStorage.setItem('username', credentials.username);
           this.isLoggedIn.set(true);
           this.currentUser.set(credentials.username);
-        }),
-        catchError(this.handleError<AuthResponse>('login'))
+        })
       );
   }
 
@@ -77,12 +76,5 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('auth_token');
-  }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
   }
 }

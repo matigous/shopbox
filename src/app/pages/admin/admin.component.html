@@ -1,8 +1,8 @@
-<div class="container my-4 admin-container">
+<div class="container my-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>Administração de Produtos</h1>
+    <h1 class="admin-title">Administração de Produtos</h1>
     <div class="d-flex gap-2">
-      <button class="btn border" (click)="refreshProducts()">
+      <button class="btn-outline-primary border-dark btn-sm" (click)="refreshProducts()">
         🔄 Atualizar
       </button>
     </div>
@@ -61,11 +61,11 @@
             <th width="100">Ações</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="table-dark">
           @for (product of filteredProducts(); track product.id) {
           <tr>
             <td>
-              <span class="badge border bg-light text-dark">{{ product.id }}</span>
+              <span class="badge">{{ product.id }}</span>
             </td>
             <td>
               <img [src]="product.image" [alt]="product.title" class="product-image">
@@ -83,18 +83,17 @@
               </span>
             </td>
             <td>
-              <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center gap-1">
                 <small>⭐ {{ product.rating.rate }} </small>
-                <br>
                 <small class="text-muted">({{ product.rating.count }})</small>
               </div>
             </td>
             <td>
               <div class="btn-group-vertical btn-group-sm">
-                <button class="btn border btn-sm mb-1" (click)="viewProduct(product.id)" title="Ver Detalhes">
+                <button class="btn border-dark btn-sm mb-1" (click)="viewProduct(product.id)" title="Ver Detalhes">
                   👁️
                 </button>
-                <button class="btn border btn-sm" (click)="deleteProduct(product.id)"
+                <button class="btn border-dark btn-sm" (click)="deleteProduct(product.id)"
                   [disabled]="deleting().has(product.id)" title="Deletar Produto">
                   @if (deleting().has(product.id)) {
                   <span class="spinner-border spinner-border-sm"></span>

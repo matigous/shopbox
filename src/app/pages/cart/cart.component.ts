@@ -18,6 +18,7 @@ export class CartComponent {
   }
 
   removeItem(productId: number): void {
+    console.log('Removing item with productId:', productId);
     this.cartService.removeFromCart(productId);
   }
 

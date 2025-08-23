@@ -32,9 +32,11 @@ export class LoginComponent {
     this.error.set('');
 
     this.authService.login(this.credentials).subscribe({
-      next: () => {
-        this.loading.set(false);
-        this.router.navigate(['/home']);
+      next: (response) => {
+        if (response.token) {
+          this.loading.set(false);
+          this.router.navigate(['/home']);
+        }
       },
       error: (err) => {
         console.error('Login failed', err);

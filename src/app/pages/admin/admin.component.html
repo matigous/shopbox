@@ -2,26 +2,25 @@
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>Administração de Produtos</h1>
     <div class="d-flex gap-2">
-      <button class="btn btn-success" (click)="refreshProducts()">
+      <button class="btn border" (click)="refreshProducts()">
         🔄 Atualizar
       </button>
     </div>
   </div>
 
-  <div class="row mb-4">
-    <div class="col-md-6">
-      <input type="text" class="form-control" placeholder="Buscar produtos..." [(ngModel)]="searchTerm"
-        (input)="onSearchChange()">
+  <div class="row mb-4 d-flex align-items-center">
+    <div class="col-md-6 d-flex align-items-center">
+      <input type="text" class="form-control" placeholder="Buscar produtos..." [(ngModel)]="searchTerm">
     </div>
-    <div class="col-md-4">
-      <select class="form-select" [(ngModel)]="selectedCategory" (change)="onCategoryChange()">
+    <div class="col-md-4 d-flex align-items-center">
+      <select class="form-select" [(ngModel)]="selectedCategory">
         <option value="">Todas as Categorias</option>
         @for (category of categories(); track category) {
         <option [value]="category">{{ category | titlecase }}</option>
         }
       </select>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2 d-flex align-items-center justify-content-end">
       <div class="text-muted">
         {{ filteredProducts().length }} produto(s)
       </div>
@@ -66,7 +65,7 @@
           @for (product of filteredProducts(); track product.id) {
           <tr>
             <td>
-              <span class="badge bg-secondary">#{{ product.id }}</span>
+              <span class="badge border bg-light text-dark">{{ product.id }}</span>
             </td>
             <td>
               <img [src]="product.image" [alt]="product.title" class="product-image">
@@ -92,8 +91,7 @@
             </td>
             <td>
               <div class="btn-group-vertical btn-group-sm">
-                <button class="btn border btn-sm mb-1" (click)="viewProduct(product.id)"
-                  title="Ver Detalhes">
+                <button class="btn border btn-sm mb-1" (click)="viewProduct(product.id)" title="Ver Detalhes">
                   👁️
                 </button>
                 <button class="btn border btn-sm" (click)="deleteProduct(product.id)"

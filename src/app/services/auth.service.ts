@@ -1,10 +1,15 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap, from } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { MockApiService } from './mock-api.service';
-import authMockJson from '../../assets/mocks/auth.json';
+
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  password: string;
+}
 
 export interface LoginCredentials {
   username: string;
@@ -19,18 +24,13 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
+  private apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
   private router = inject(Router);
-  private apiUrl = environment.apiUrl;
-  private mock = new MockApiService();
   public isLoggedIn = signal<boolean>(this.hasToken());
   public currentUser = signal<string | null>(this.getStoredUsername());
 
   constructor() {
-    if (!environment.apiUrl) {
-      this.mock.seed('auth/login', authMockJson);
-    }
-
     this.checkExistingAuth();
   }
 
@@ -53,17 +53,6 @@ export class AuthService {
   }
 
   login(credentials: LoginCredentials): Observable<AuthResponse> {
-    if (!this.apiUrl)
-      return from(this.mock.auth('auth/login', credentials.username))
-        .pipe(
-          tap(response => {
-            localStorage.setItem('auth_token', response.token);
-            localStorage.setItem('username', credentials.username);
-            this.isLoggedIn.set(true);
-            this.currentUser.set(credentials.username);
-          })
-        );
-
     return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, credentials)
       .pipe(
         tap(response => {
@@ -71,7 +60,8 @@ export class AuthService {
           localStorage.setItem('username', credentials.username);
           this.isLoggedIn.set(true);
           this.currentUser.set(credentials.username);
-        })
+        }),
+        catchError(this.handleError<AuthResponse>('login'))
       );
   }
 
@@ -87,5 +77,12 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('auth_token');
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
   }
 }

@@ -3,7 +3,6 @@
 
   @if (cartService.items().length === 0) {
     <div class="empty-cart">
-      <!-- <img src="assets/empty-cart.svg" alt="Carrinho Vazio" class="mb-4" style="width: 240px;"> -->
       <h2 class="empty-title">Seu carrinho está vazio</h2>
       <p class="empty-text">Explore nossa loja e descubra produtos incríveis!</p>
       <a routerLink="/home" class="btn btn-primary btn-lg">
@@ -33,7 +32,6 @@
                     </div>
                     <button class="remove-btn" (click)="removeItem(item.product.id)">
                       🗑️
-                      <!-- <i class="bi bi-trash"></i> -->
                     </button>
                   </div>
                 </div>
@@ -48,7 +46,7 @@
 
             <div class="summary-row">
               <span>Subtotal</span>
-              <span>R$ {{ cartService.totalPrice().toFixed(2) }}</span>
+              <span>{{ cartService.totalPrice() | currency: 'BRL'}}</span>
             </div>
 
             <div class="summary-row">
@@ -58,7 +56,7 @@
 
             <div class="summary-row total">
               <span>Total</span>
-              <span>R$ {{ cartService.totalPrice().toFixed(2) }}</span>
+              <span>{{ cartService.totalPrice() | currency: 'BRL' }}</span>
             </div>
 
             <button class="checkout-btn">

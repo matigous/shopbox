@@ -1,4 +1,4 @@
-const API_URL = undefined;
+const API_URL = "https://fakestoreapi.com/";
 
 export const environment = {
   production: false,

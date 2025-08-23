@@ -9,5 +9,5 @@ import { NavbarComponent } from './components/navbar/navbar.component';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  title = 'angular-store';
+  title = 'ShopBox';
 }

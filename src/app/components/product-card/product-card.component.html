@@ -7,13 +7,13 @@
     <div class="card-body-header">
       <h6 class="card-title mb-2">{{ product.title | slice:0:25 }}<span *ngIf="product.title.length > 25">...</span>
       </h6>
-      <p class="card-text text-muted">{{ product.description | slice:0:200 }}<span
-          *ngIf="product.description.length > 200">...</span></p>
+      <p class="card-text text-muted">{{ product.description | slice:0:120 }}<span
+          *ngIf="product.description.length > 120">...</span></p>
     </div>
 
     <div class="card-body-content">
       <div class="product-meta">
-        <span class="product-price">R$ {{ product.price }}</span>
+        <span class="product-price">{{ product.price | currency: 'BRL' }}</span>
         <span class="badge-rating">⭐ {{ product.rating.rate }}/5</span>
       </div>
 

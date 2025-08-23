@@ -1,9 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, from, of, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, of, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { MockApiService } from './mock-api.service';
-import ProductsMockJson from '../../assets/mocks/products.json';
 
 export interface Product {
   id: number;
@@ -22,45 +20,73 @@ export interface Product {
   providedIn: 'root'
 })
 export class ProductService {
-  private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
-  private mock = new MockApiService();
+  private http = inject(HttpClient);
+  private productsSubject = new BehaviorSubject<Product[]>([]);
+  public products$ = this.productsSubject.asObservable();
 
   constructor() {
-    if (!environment.apiUrl) {
-      this.mock.seed('products', ProductsMockJson);
-    }
+    this.loadProducts();
+  }
+
+  loadProducts(): void {
+    this.http.get<Product[]>(`${this.apiUrl}/products`)
+      .pipe(
+        catchError(this.handleError<Product[]>('loadProducts', []))
+      )
+      .subscribe(products => this.productsSubject.next(products));
   }
 
   getAllProducts(): Observable<Product[]> {
-    if (!this.apiUrl) {
-      return from(this.mock.list('products'));
-    }
-
-    return this.http.get<Product[]>(`${this.apiUrl}/products`);
+    return this.http.get<Product[]>(`${this.apiUrl}/products`)
+      .pipe(
+        catchError(this.handleError<Product[]>('getAllProducts', []))
+      );
   }
 
   getProductById(id: number): Observable<Product> {
-    if (!this.apiUrl) {
-      return from(this.mock.get('products', id));
-    }
-
-    return this.http.get<Product>(`${this.apiUrl}/products/${id}`);
+    return this.http.get<Product>(`${this.apiUrl}/products/${id}`)
+      .pipe(
+        catchError(this.handleError<Product>(`getProductById id=${id}`))
+      );
   }
 
   getCategories(): Observable<string[]> {
-    if (!this.apiUrl) {
-      return from(this.mock.list('products/categories'));
-    }
-
-    return this.http.get<string[]>(`${this.apiUrl}/products/categories`);
+    return this.http.get<string[]>(`${this.apiUrl}/products/categories`)
+      .pipe(
+        catchError(this.handleError<string[]>('getCategories', []))
+      );
   }
 
-  deleteProduct(id: number): Observable<Product> {
-    if (!this.apiUrl) {
-      return from(this.mock.delete('products', id));
-    }
+  addProduct(product: Omit<Product, 'id'>): Observable<Product> {
+    return this.http.post<Product>(`${this.apiUrl}/products`, product)
+      .pipe(
+        tap(() => this.loadProducts()),
+        catchError(this.handleError<Product>('addProduct'))
+      );
+  }
 
-    return this.http.delete<Product>(`${this.apiUrl}/products/${id}`);
+  updateProduct(id: number, product: Partial<Product>): Observable<Product | void> {
+    return this.http.put<Product>(`${this.apiUrl}/products/${id}`, product)
+      .pipe(
+        tap(() => this.loadProducts()),
+        catchError(this.handleError<void>('updateProduct'))
+      );
+  }
+
+  deleteProduct(id: number): Observable<Product | void> {
+    return this.http.delete<Product>(`${this.apiUrl}/products/${id}`)
+      .pipe(
+        tap(() => this.loadProducts()),
+        catchError(this.handleError<void>('deleteProduct'))
+      );
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(`${operation} failed: ${error.message}`);
+
+      return of(result as T);
+    };
   }
 }

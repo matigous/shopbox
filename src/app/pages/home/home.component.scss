@@ -1,0 +1,72 @@
+:host {
+  display: block;
+  padding: 0.5rem 0;
+}
+
+.home-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 1rem 0.5rem;
+  background: linear-gradient(90deg, rgba(79,70,229,0.06), rgba(6,182,212,0.03));
+  border-radius: 12px;
+}
+
+.home-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin: 0;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.home-subtitle {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* Spinner centralizado na tela da Home */
+.home-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem 0;
+}
+
+/* Estado de erro / vazio com foco no CTA */
+.home-empty {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.7));
+  box-shadow: var(--elevation-1);
+}
+
+.home-empty .empty-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.home-empty .empty-cta {
+  margin-top: 1rem;
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background-image: linear-gradient(90deg, var(--primary), var(--accent));
+  color: white;
+  box-shadow: 0 10px 28px rgba(79,70,229,0.12);
+  text-decoration: none;
+}
+
+/* Melhor espaçamento dos cards dentro do grid para mobile */
+@media (max-width: 576px) {
+  .product-grid {
+    gap: 1rem;
+  }
+
+  .home-title {
+    font-size: 1.4rem;
+  }
+}

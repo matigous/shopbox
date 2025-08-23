@@ -1,4 +1,4 @@
-<div class="container my-4">
+<div class="container my-4 admin-container">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>Administração de Produtos</h1>
     <div class="d-flex gap-2">
@@ -69,42 +69,34 @@
               <span class="badge bg-secondary">#{{ product.id }}</span>
             </td>
             <td>
-              <img [src]="product.image" [alt]="product.title" class="img-thumbnail"
-                style="width: 60px; height: 60px; object-fit: contain;">
+              <img [src]="product.image" [alt]="product.title" class="product-image">
             </td>
             <td>
-              <div>
-                <strong>{{ product.title | slice:0:40 }}</strong>
-                @if (product.title.length > 40) {
-                <span>...</span>
-                }
-              </div>
-              <small class="text-muted">
-                {{ product.description | slice:0:60 }}...
-              </small>
+              <div class="product-title">{{ product.title }}</div>
+              <div class="product-description">{{ product.description }}</div>
             </td>
             <td>
-              <span class="fw-bold text-success">\${{ product.price }}</span>
+              <span class="fw-bold text-success">{{ product.price | currency: 'BRL' }}</span>
             </td>
             <td>
-              <span class="badge bg-info text-dark">
+              <span class="badge badge-category">
                 {{ product.category | titlecase }}
               </span>
             </td>
             <td>
               <div class="d-flex align-items-center">
-                <small>⭐ {{ product.rating.rate }}</small>
+                <small>⭐ {{ product.rating.rate }} </small>
                 <br>
                 <small class="text-muted">({{ product.rating.count }})</small>
               </div>
             </td>
             <td>
               <div class="btn-group-vertical btn-group-sm">
-                <button class="btn btn-outline-primary btn-sm mb-1" (click)="viewProduct(product.id)"
+                <button class="btn border btn-sm mb-1" (click)="viewProduct(product.id)"
                   title="Ver Detalhes">
                   👁️
                 </button>
-                <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.id)"
+                <button class="btn border btn-sm" (click)="deleteProduct(product.id)"
                   [disabled]="deleting().has(product.id)" title="Deletar Produto">
                   @if (deleting().has(product.id)) {
                   <span class="spinner-border spinner-border-sm"></span>
@@ -123,7 +115,7 @@
 
   <div class="row mt-4">
     <div class="col-md-12">
-      <div class="card bg-light">
+      <div class="card stats-card">
         <div class="card-body">
           <h6>Estatísticas Rápidas:</h6>
           <div class="row text-center">
@@ -136,7 +128,7 @@
               <small>Categorias</small>
             </div>
             <div class="col">
-              <strong>\${{ averagePrice().toFixed(2) }}</strong><br>
+              <strong>{{ averagePrice() | currency: 'BRL' }}</strong><br>
               <small>Preço Médio</small>
             </div>
             <div class="col">

@@ -8,21 +8,17 @@ import { ProductService, Product } from '../../services/product.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './admin.component.html',
+  styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent implements OnInit {
   private productService = inject(ProductService);
-
-  // Estado principal
   public products = signal<Product[]>([]);
   public loading = signal<boolean>(false);
   public error = signal<string>('');
   public deleting = signal<Set<number>>(new Set());
-
-  // Estados de filtro
   public searchTerm = '';
   public selectedCategory = '';
 
-  // Computed values - valores calculados automaticamente
   public categories = computed(() => {
     const allCategories = this.products().map(p => p.category);
     return [...new Set(allCategories)].sort();
@@ -31,7 +27,6 @@ export class AdminComponent implements OnInit {
   public filteredProducts = computed(() => {
     let filtered = this.products();
 
-    // Filtro por termo de busca
     if (this.searchTerm.trim()) {
       const term = this.searchTerm.toLowerCase();
       filtered = filtered.filter(product =>
@@ -41,7 +36,6 @@ export class AdminComponent implements OnInit {
       );
     }
 
-    // Filtro por categoria
     if (this.selectedCategory) {
       filtered = filtered.filter(product =>
         product.category === this.selectedCategory

@@ -8,6 +8,7 @@ import { ProductCardComponent } from '../../components/product-card/product-card
   standalone: true,
   imports: [CommonModule, ProductCardComponent],
   templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
   private productService = inject(ProductService);

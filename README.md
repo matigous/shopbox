@@ -1,59 +1,207 @@
-# Shopbox
+# 🛍️ Shopbox - E-commerce SPA
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.15.
+A modern e-commerce application built with Angular 19, demonstrating advanced concepts like Signals, Lazy Loading, Route Guards, and reactive state management.
 
-## Development server
+## 📋 About the Project
 
-To start a local development server, run:
+This project is a Single-Page Application (SPA) of an online store that allows users to view products, log in, and manage a shopping cart. The application works both online (consuming the FakeStoreAPI) and offline (using mocked data).
+
+### 🎯 Key Features
+
+  - **🏪 Product Catalog**: Product listing and details
+  - **🔐 Authentication System**: Secure login with JWT
+  - **🛒 Shopping Cart**: Add, remove, and manage items
+  - **👨‍💼 Admin Area**: Product CRUD with lazy loading
+  - **📱 Offline Mode**: Works without internet using mocked data
+  - **🔄 Reactive State**: Managed with Angular Signals
+
+## 🚀 Modes
+
+### 🌐 Development Mode
+
+  - Consumes data from [FakeStoreAPI](https://fakestoreapi.com/)
+  - Real authentication via API
+  - Connected CRUD operations
+
+## 🛠️ Technologies Used
+
+  - **Angular 19** - Main framework
+  - **TypeScript** - Programming language
+  - **Bootstrap 5** - CSS framework
+  - **RxJS** - Reactive programming
+  - **Angular Signals** - Modern state management
+  - **Angular Router** - Routing and navigation
+
+## 📦 Installation and Execution
+
+### Prerequisites
+
+  - Node.js 18+
+  - npm 9+
+  - Angular CLI 19+
+
+### 🔧 Installation
 
 ```bash
+git clone https://github.com/matigous/shopbox.git
+
+cd angular-store
+
+npm install
+
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The application will be available at `http://localhost:4200`
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 🏗️ Production Build
 
 ```bash
-ng generate component component-name
+ng build --configuration production
+
+npx http-server dist/shopbox
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 👥 Test Users (Development Mode)
 
-```bash
-ng generate --help
+| Username  | Password | Profile       |
+|-----------|----------|---------------|
+| `johnd` | `m38rmF$` | Administrator   |
+
+## 🔗 Application Routes
+
+| Route        | Description              | Protection  |
+|--------------|--------------------------|-------------|
+| `/`          | Redirects to `/home`     | Public      |
+| `/home`      | Home page with products  | Public      |
+| `/product/:id` | Product details          | Public      |
+| `/login`     | Login page               | Public      |
+| `/cart`      | Shopping cart            | 🔒 Protected |
+| `/admin`     | Administration (Lazy Loading) | 🔒 Protected |
+
+## 🏗️ Project Architecture
+
+```
+src/app/
+├── components/         # Reusable components
+│   ├── navbar/         # Navigation bar
+│   └── product-card/   # Product card
+├── pages/              # Application pages
+│   ├── home/           # Home page
+│   ├── product-detail/ # Product details
+│   ├── login/          # Login page
+│   ├── cart/           # Shopping cart
+│   ├── admin/          # Admin area
+│   └── not-found/      # 404 page
+├── services/           # Data services
+│   ├── product.service.ts  # Product management
+│   ├── auth.service.ts     # Authentication
+│   ├── cart.service.ts     # Shopping cart
+│   └── mock-data.service.ts # Mocked data
+├── guards/             # Route guards
+│   └── auth.guard.ts   # Route protection
+├── interceptors/       # HTTP Interceptors
+│   └── auth.interceptor.ts # Automatic token
+└── environments/       # Environment settings
 ```
 
-## Building
+## 🎨 Angular Concepts Implemented
 
-To build the project run:
+### 🔄 Signals (New in Angular 16+)
 
-```bash
-ng build
+```typescript
+public products = signal<Product[]>([]);
+public totalItems = computed(() =>
+  this.cartItems().reduce((total, item) => total + item.quantity, 0)
+);
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### 🚀 Lazy Loading
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+```typescript
+{
+  path: 'admin',
+  loadComponent: () => import('./pages/admin/admin.component')
+    .then(m => m.AdminComponent),
+  canActivate: [authGuard]
+}
 ```
 
-## Running end-to-end tests
+### 🛡️ Route Guards
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+```typescript
+export const authGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  return authService.isLoggedIn() ? true : false;
+};
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### 🔌 HTTP Interceptors
 
-## Additional Resources
+```typescript
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const token = inject(AuthService).getToken();
+  if (token) {
+    req = req.clone({
+      setHeaders: { Authorization: `Bearer ${token}` }
+    });
+  }
+  return next(req);
+};
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 📱 Special Features
+
+### 🔄 Automatic Fallback
+
+The application automatically detects when the API is unavailable and activates offline mode:
+
+```typescript
+getAllProducts(): Observable<Product[]> {
+  return this.http.get<Product[]>(`${this.apiUrl}/products`)
+    .pipe(
+      catchError(() => this.mockDataService.getAllProducts())
+    );
+}
+```
+
+### 🛒 Reactive Cart
+
+The cart updates automatically throughout the application using Signals:
+
+```typescript
+public totalItems = computed(() =>
+  this.cartItems().reduce((total, item) => total + item.quantity, 0)
+);
+```
+
+## 🤝 Contributing
+
+1.  Fork the project
+2.  Create a branch for your feature (`git checkout -b feature/AmazingFeature`)
+3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
+
+## 📄 License
+
+This project is under the MIT license. See the [LICENSE](https://www.google.com/search?q=LICENSE) file for more details.
+
+## 👨‍💻 Author
+
+Developed by Matheus Vilela Diniz Maia.
+
+-----
+
+### 🎯 Educational Objective
+
+This project demonstrates the practical implementation of:
+
+  - ✅ Componentization and communication between components
+  - ✅ Services and dependency injection
+  - ✅ Routing and protection guards
+  - ✅ State management with Signals
+  - ✅ HTTP Interceptors for authentication
+  - ✅ Lazy loading for optimization
+  - ✅ Error handling and fallbacks
+  - ✅ Responsiveness with Bootstrap

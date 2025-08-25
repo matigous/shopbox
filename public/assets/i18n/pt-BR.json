@@ -1,0 +1,15 @@
+{
+  "NAVIGATION": {
+    "HOME": "Página Inicial",
+    "CART": "Carrinho",
+    "ADMIN": "Administração",
+    "LOGIN": "Entrar",
+    "LOGOUT": "Sair"
+  },
+  "PRODUCT": {
+    "DETAILS": "Detalhes do Produto",
+    "PRICE": "Preço",
+    "CATEGORY": "Categoria",
+    "ADD_TO_CART": "Adicionar ao Carrinho"
+  }
+}

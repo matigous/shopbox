@@ -2,11 +2,12 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService, Product } from '../../services/product.service';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ProductCardComponent],
+  imports: [CommonModule, ProductCardComponent, TranslateModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
@@ -15,6 +16,10 @@ export class HomeComponent implements OnInit {
   public products = signal<Product[]>([]);
   public loading = signal<boolean>(false);
   public error = signal<string>('');
+
+  constructor(public translate: TranslateService) {
+    this.translate.use('pt-BR');
+  }
 
   ngOnInit(): void {
     this.loadProducts();

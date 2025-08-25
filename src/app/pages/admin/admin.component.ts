@@ -2,11 +2,12 @@ import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductService, Product } from '../../services/product.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
 })
@@ -18,6 +19,10 @@ export class AdminComponent implements OnInit {
   public deleting = signal<Set<number>>(new Set());
   public searchTerm = signal<string>('');
   public selectedCategory = signal<string>('');
+
+  constructor(public translate: TranslateService) {
+    this.translate.use('pt-BR');
+  }
 
   public categories = computed(() => {
     const allCategories = this.products().map(p => p.category);

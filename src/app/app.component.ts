@@ -8,6 +8,4 @@ import { NavbarComponent } from './components/navbar/navbar.component';
   imports: [RouterOutlet, NavbarComponent],
   templateUrl: './app.component.html',
 })
-export class AppComponent {
-  title = 'ShopBox';
-}
+export class AppComponent { }

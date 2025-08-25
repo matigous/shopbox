@@ -1,5 +1,5 @@
 <div class="container my-4">
-  <h1 class="cart-title">Seu Carrinho de Compras</h1>
+  <h1 class="cart-title">{{ 'NAVIGATION.CART' | translate }}</h1>
 
   @if (cartService.items().length === 0) {
     <div class="empty-cart">

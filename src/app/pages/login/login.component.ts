@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
@@ -21,6 +22,10 @@ export class LoginComponent {
 
   public loading = signal<boolean>(false);
   public error = signal<string>('');
+
+  constructor(public translate: TranslateService) {
+    this.translate.use('pt-BR');
+  }
 
   onSubmit(): void {
     if (!this.credentials.username || !this.credentials.password) {

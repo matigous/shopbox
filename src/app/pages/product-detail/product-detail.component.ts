@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService, Product } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.scss']
 })
@@ -19,6 +20,10 @@ export class ProductDetailComponent implements OnInit {
   public product = signal<Product | null>(null);
   public loading = signal<boolean>(false);
   public error = signal<string>('');
+
+    constructor(public translate: TranslateService) {
+    this.translate.use('pt-BR');
+  }
 
   ngOnInit(): void {
     const productId = Number(this.route.snapshot.paramMap.get('id'));

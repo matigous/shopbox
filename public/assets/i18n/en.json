@@ -1,0 +1,15 @@
+{
+  "NAVIGATION": {
+    "HOME": "Home",
+    "CART": "Cart",
+    "ADMIN": "Administrator",
+    "LOGIN": "Login",
+    "LOGOUT": "Logout"
+  },
+  "PRODUCT": {
+    "DETAILS": "Product Details",
+    "PRICE": "Price",
+    "CATEGORY": "Category",
+    "ADD_TO_CART": "Add to Cart"
+  }
+}

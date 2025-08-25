@@ -1,0 +1,20 @@
+.language-switcher {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+
+.btn-outlined-primary {
+  background: transparent;
+  border: 1px solid var(--secondary);
+  color: var(--secondary);
+
+  &:hover {
+    background: var(--secondary);
+    color: white;
+  }
+  &:active {
+    transform: translateY(1px);
+  }
+}

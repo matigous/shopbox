@@ -150,31 +150,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 };
 ```
 
-## 📱 Special Features
-
-### 🔄 Automatic Fallback
-
-The application automatically detects when the API is unavailable and activates offline mode:
-
-```typescript
-getAllProducts(): Observable<Product[]> {
-  return this.http.get<Product[]>(`${this.apiUrl}/products`)
-    .pipe(
-      catchError(() => this.mockDataService.getAllProducts())
-    );
-}
-```
-
-### 🛒 Reactive Cart
-
-The cart updates automatically throughout the application using Signals:
-
-```typescript
-public totalItems = computed(() =>
-  this.cartItems().reduce((total, item) => total + item.quantity, 0)
-);
-```
-
 ## 🤝 Contributing
 
 1.  Fork the project
